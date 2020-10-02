@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm"
+                   default-access="field">
+
+    <sql-query name="getMsById">
+    	<return class="entities.Ms">
+    		<return-property name="id" column="id"/>
+    		<return-property name="num" column="id"/>
+			<return-property name="text" column="text"/>
+    	</return>
+        <![CDATA[ select id, text from ms where id = :id and true = true ]]>
+    </sql-query>
+    
+    <sql-query name="getMs">
+    	<return class="entities.Ms">
+    		<return-property name="id" column="id"/>
+    		<return-property name="num" column="id"/>
+			<return-property name="text" column="text"/>
+    	</return>
+        <![CDATA[ select id, text from ms ]]>
+    </sql-query>
+
+</hibernate-mapping>

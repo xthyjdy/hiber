@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm"
+                   default-access="field">
+
+    <database-object>
+        <create>
+            CREATE PROCEDURE x()
+			BEGIN
+				SELECT * FROM it;
+			END //
+			
+			DELIMITER ;
+        </create>
+        <drop>
+            drop procedure x
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL55Dialect"/>
+    </database-object>
+    
+    <database-object>
+        <create>
+            CREATE PROCEDURE items()
+			BEGIN
+				SELECT * FROM it order by id desc;
+			END //
+			
+			DELIMITER ;
+        </create>
+        <drop>
+            drop procedure items
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL55Dialect"/>
+    </database-object>
+
+</hibernate-mapping>

@@ -1,0 +1,200 @@
+hibernate - page 311
+
+----------------------------POM----------------------------
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>h_group</groupId>
+  <artifactId>h</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+  
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>5.2.6.Final</version>
+    </dependency>
+
+	<dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>6.1.0.Final</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.17</version>
+    </dependency>
+    
+    
+ 
+  </dependencies>
+  
+</project>
+-----------------------------------------------------------
+----------------------------hibernate.cfg.xml--------------
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>      
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/hiber?useSSL=false&amp;serverTimezone=UTC</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">root</property>
+    <property name="show_sql">true</property>
+	
+    <mapping class="entities.U2" />
+    
+     
+  </session-factory>
+</hibernate-configuration>
+-----------------------------------------------------------
+----------------------------U2.java------------------------
+package entities;
+
+import static help.MyLog.l;
+import java.io.Serializable;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+@Entity
+@Table(name = "u2", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+public class U2 implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	protected long id;
+	
+	@NotNull
+	@Column(name = "username")
+	protected String name;
+	
+	public U2() {
+    }
+	
+	public U2(String U2name) {
+		this.name = U2name;
+    }
+	
+	public long getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@Override
+	public boolean equals(Object verifiable) {
+		if (verifiable == this) return true;
+		if (verifiable == null) {
+			return false;
+		}
+		if (!(verifiable instanceof U2))  {
+			return false;
+		}
+		U2 u = (U2)verifiable;
+		return getName().equals(u.getName());
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+}
+-----------------------------------------------------------
+------------------------------M.java-----------------------
+package manager;
+
+import static help.MyLog.l;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnitUtil;
+
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.JPAIndexHolder;
+
+import dao.MainDao;
+import entities.Bid;
+import entities.Book;
+import entities.It2;
+import entities.SesBean;
+import entities.U2;
+
+public class M {
+	protected SessionFactory sessionFactory;
+	private long n = 3, id = 1;
+	
+	public void t() {
+		Session s = sessionFactory.openSession();
+		U2 u = s.find(U2.class, id);
+		
+		l(u.getName());
+		
+		s.beginTransaction(); s.getTransaction().commit();
+		
+		s.close();
+	}
+	
+	public static void main(String[] args) {
+		M m = new M();
+		m.setup();
+		m.t();
+
+        m.exit();
+    }
+	
+	protected void setup() {
+    	final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+    	        .configure() // configures settings from hibernate.cfg.xml
+    	        .build();
+    	try {
+    	    sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+    	} catch (Exception ex) {
+    	    StandardServiceRegistryBuilder.destroy(registry);
+    	}
+    }
+	
+	protected void exit() {
+        sessionFactory.close();
+    }
+}
+-----------------------------------------------------------
+CREATE TABLE u2(id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,username varchar(15) NOT NULL DEFAULT 'd_name');
+
