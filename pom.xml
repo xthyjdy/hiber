@@ -1,13 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.mastertheboss</groupId>
-  <artifactId>HibernateExample</artifactId>
-  <packaging>jar</packaging>
-  <version>1.0.0</version>
-  <name>HibernateExample</name>
-  <url>http://maven.apache.org</url>
+  <groupId>h_group</groupId>
+  <artifactId>h</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
   <dependencies>
+  
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
@@ -30,6 +28,15 @@
 	    <groupId>org.junit.jupiter</groupId>
 	    <artifactId>junit-jupiter</artifactId>
 	    <version>5.6.2</version>
-	</dependency> 
+	</dependency>
+	
+	<dependency>
+	    <groupId>javax.ejb</groupId>
+	    <artifactId>javax.ejb-api</artifactId>
+	    <version>3.2</version>
+	</dependency>
+ 
+ 
   </dependencies>
+  
 </project>
